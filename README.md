@@ -1,86 +1,39 @@
-# ROS in Docker
+# ROS in docker: IA-MPPI for Roboat 
 
-Tired of trying to compile ROS1 on Ubuntu 22.04? Tired of breaking your systems due to conflicts with
-the ton of dependencies ROS1 has? Here we propose a solution. A completely isolated environment,
-with ROS1 support by default, extensible, and with all the tools included for developing ROS1
-applications without having to install them locally.
-
-https://user-images.githubusercontent.com/21349875/199551739-c33dee77-57c7-4c10-a272-c60b98645368.mp4
+##  Usage
+This docker container runs all related dependencies for working with IA-MPPI with the Roboat model. You will need to have [Docker](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) (+docker compose) in your machine. 
 
 ## Tested host-machines
-
 - Ubuntu 22.04
 
-## Supported development environments
 
-- [x] tmux
-- [x] VSCode
-
-## How to use with your project (VSCode)
-![vscode](https://user-images.githubusercontent.com/21349875/200361817-572292e3-3d73-4fb1-bd9d-562539fa2fb4.png)
-
-1. Click on "Use this template", or fork if you like.
+## How to use the container:
 1. Git clone the repo locally and `cd` into it.
-1. Create an `src/` directory inside the repository: `mkdir -p src/`
-1. Clone inside the `src/` directory the ROS1 code you want to
- develop/test. I will be using the
-   [ros_tutorials](https://github.com/ros/ros_tutorials) as an example, but it can be as complex as
-   you wish, so, `git clone git@github.com:ros/ros_tutorials.git src/`
-1. Launch `code .`, and then go to the "Remote Explorer" tab and hit "reopen the current folder in a
-   container", this should launch a full dev environemnt with some extensions to develop your ROS
-   application in the dockerize environment
-1. Launch the `Build Task`, Ctrl+Shift+p and type "Tasks: Run Build Task"
+1. (OPTIONAL) Install whatever packages you need/want in src/. For now, we add the basic ones we will often need by running: `install_dependencies.sh`:
+``` bash
+./install_dependencies.sh
+```
+Remember, all the workspace, including src/ is mounted in the docker, so you can install dependencies from the host machine. The dependencies for the packages installed via ./install_dependencies.sh, which are: src/dinova_motion and src/dinova are standardly added to the dockerfile. 
 
-## How to use with your project (tmux)
+### Run container (with VS code for convenience)
 
-![tmux](https://user-images.githubusercontent.com/21349875/200361914-446b13a8-ee50-436b-be9f-0bbb8f48ce43.png)
+1. Launch 
+   ```bash
+   code .
+   ``` 
+   Then hit "reopen the current folder in a container" when notified, this should launch a full dev environemnt with some extensions to develop your ROS application in the dockerize environment
+1. If you want to rebuild the image, run the `Rebuild container` command, Ctrl+Shift+p and type "Rebuild...", it should appear, just select and enter.
 
-1. Click on "Use this template", or fork if you like.
-1. Git clone the repo locally and `cd` into it.
-1. Launch `make docker` to create a local docker container image with all the nice stuff installed.
-   If you need any extra dependency, now is the time to add it to the [Dockerfile](./Dockerfile).
-1. Create an `src/` directory inside the repository: `mkdir -p src/`
-1. Clone inside the `src/` directory the ROS1 code you want to develop/test. I will be using the
-   [ros_tutorials](https://github.com/ros/ros_tutorials) as an example, but it can be as complex as
-   you wish, so, `git clone git@github.com:ros/ros_tutorials.git src/`
-1. Launch `make`, this will build your project and open a `tmux` session with all the batteries
-   included.
+## Adding dependencies to your docker:
+When you want to adapt the dependencies in the docker file [Dockerfile](./Dockerfile)., this requires a re-build of the image:
+1. Launch the `Dev containers: Rebuild container`, via Ctrl+shift+p
 
-## What about injecting rosbags inside the dev container?
+## Running an example:
+For a quick test, run:
+``` bash
+   roslaunch mppi_evaulation tight_crossing_head_on.launch
+```
 
-Got you covered, just use the environment variable `export ROS_BAGS=/path/to/data/in/host` and
-launch `make`. Your rosbag files will be mounted in the dev container in `~/ros_ws/bags` and are
-read-only accessible to the ROS1 applications.
-
-## How to extend the container
-
-Could not be more simple, just add all your user-space command on the [Dockerfile](./Dockerfile).
-`apt install <your-libs>` and enjoy the setup.
-
-## GUI Supported?
-
-Of course, you can run `rviz` and friends inside the dev container, it looks a bit ugly but at least
-it works.
-
-## Install host-machine dependencies
-
-For now, you only need, I expect this repo to be used by "intermediate" developers, so I guess you
-can figure out how to do that.
-
-- docker
-- docker-compose
-- (VSCode) dev-containers extension
-
-## Security concerns
-
-The entire setup is NOT safe at all, so, use it at your own risk. I'm mounting directories from the
-host machine to the docker container where the user has `sudo` access without a password. So you can
-literally delete some stuff with `root` permissions without even typing a password. So, you are
-warned!
-
-## About the tools for development
-
-I built this project on top of my [dotfiles](https://github.com/nachovizzo/dotfiles/blob/main/.config/yadm/bootstrap),
-so it's completely overfitted to my own needs and I don't intend to provide support for extra stuff.
-If there is something you don't like or don't need, feel free to modify your copy of the Dockerfile.
-You are in full control of what you want and not.
+<!--
+## Working with the real-robot:
+If you work with the real robot, inst
