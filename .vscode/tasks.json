@@ -9,7 +9,7 @@
         {
             "label": "catkin build",
             "type": "shell",
-            "command": "/ros_entrypoint.sh catkin build --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+            "command": "/ros_entrypoint.sh catkin build --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release"
         },
         {
             "label": "create compile_commands.json",
