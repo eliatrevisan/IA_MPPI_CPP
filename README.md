@@ -9,9 +9,10 @@ This docker container runs all related dependencies for working with IA-MPPI wit
 
 ## How to use the container:
 1. Git clone the repo locally and `cd` into it.
-1. (OPTIONAL) Install whatever packages you need/want in src/. For now, we add the basic ones we will often need by running: `install_dependencies.sh`:
+1. Install whatever packages you need/want in src/. For now, we add the basic ones we will often need by running: `clone_dependencies.sh`:
 ``` bash
-./install_dependencies.sh
+chmod +x ./clone_dependencies.sh
+./clone_dependencies.sh
 ```
 Remember, all the workspace, including src/ is mounted in the docker, so you can install dependencies from the host machine. The dependencies for the packages installed via ./install_dependencies.sh, which are: src/dinova_motion and src/dinova are standardly added to the dockerfile. 
 
@@ -27,6 +28,10 @@ Remember, all the workspace, including src/ is mounted in the docker, so you can
 ## Adding dependencies to your docker:
 When you want to adapt the dependencies in the docker file [Dockerfile](./Dockerfile)., this requires a re-build of the image:
 1. Launch the `Dev containers: Rebuild container`, via Ctrl+shift+p
+
+## Building the workspace
+Once you have the container open in VS Code, press Ctrl+Shift+p and type "build...". Then select "Task: Run Build Task".
+This should compile all the code in the src folder of the workspace.
 
 ## Running an example:
 For a quick test, run:
