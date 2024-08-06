@@ -27,6 +27,31 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     rsync \
     && rm -rf /var/lib/apt/lists/*
 
+# Install additional ROS packages
+RUN apt-get update && apt-get install ros-$ROS_DISTRO-grid-map -y
+RUN apt-get update && apt-get install ros-$ROS_DISTRO-turtle-tf2 ros-$ROS_DISTRO-tf2-tools ros-$ROS_DISTRO-tf -y
+
+# Install SDL2 and SDL2-image
+RUN apt-get install libsdl-dev -y
+RUN apt-get install libsdl-image1.2-dev -y
+
+# Install tf2_sensor_msgs
+RUN apt install ros-$ROS_DISTRO-tf2-sensor-msgs
+
+# Install move_base_msgs
+RUN apt-get install ros-$ROS_DISTRO-move-base-msgs
+
+# Mount libraries folder from host to container
+COPY libraries /home/$USER_NAME/libraries 
+
+# Compile and install the Savitzky-Golay filter library
+WORKDIR /home/$USER_NAME/libraries/gram_savitzky_golay 
+RUN mkdir build
+WORKDIR /home/$USER_NAME/libraries/gram_savitzky_golay/build
+RUN cmake -DCMAKE_BUILD_TYPE=Release ..
+RUN make
+RUN sudo make install
+
 # $USER_NAME Inherited from .base/Dockerfile
 WORKDIR /home/$USER_NAME/ros_ws
 CMD ["zsh"]
