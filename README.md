@@ -14,7 +14,7 @@ This docker container runs all related dependencies for working with IA-MPPI wit
 chmod +x ./clone_dependencies.sh
 ./clone_dependencies.sh
 ```
-Remember, all the workspace, including src/ is mounted in the docker, so you can install dependencies from the host machine. The dependencies for the packages installed via ./install_dependencies.sh, which are: src/dinova_motion and src/dinova are standardly added to the dockerfile. 
+Remember, all the workspace, including src/ is mounted in the docker, so you can install dependencies from the host machine.
 
 ### Run container (with VS code for convenience)
 
