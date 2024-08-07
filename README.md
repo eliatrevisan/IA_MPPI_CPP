@@ -36,8 +36,9 @@ This should compile all the code in the src folder of the workspace.
 ## Running an example:
 For a quick test, run:
 ``` bash
-   roslaunch mppi_evaulation tight_crossing_head_on.launch
+   roslaunch mppi_evaluation tight_crossing_head_on.launch
 ```
+If you cannot find the package, make sure you source devel/setup.zsh
 
 <!--
 ## Working with the real-robot:
