@@ -25,8 +25,10 @@ services:
     image: ros_in_docker/noetic:${CONTAINER_NAME:-noetic}
     user: ${USER_NAME:-user}
     network_mode: "host"
+    privileged: true
     environment:
       - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
     volumes:
       - .:/home/user/ros_ws
       - ${ROS_BAGS:-/dev/tmp}:/home/user/ros_ws/bags/:ro
@@ -34,3 +36,4 @@ services:
       - /run/user/1000/gdm/Xauthority:/home/user/.Xauthority
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - ~/.gitconfig:/home/user/.gitconfig:ro
